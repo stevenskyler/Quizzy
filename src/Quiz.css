@@ -110,7 +110,7 @@
   left: 50%;
   width: 100px;
   height: 100px;
-  background: url('https://path/to/fireworks.gif') no-repeat center center;
+  background: url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3BuOHkzNHBjZ2FhbnpwZXB2d3RhbmNqZnE4ZGJ5OTh0OXY4OXZvMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/odsNxyQQDb29O/giphy.gif') no-repeat center center;
   background-size: cover;
   transform: translate(-50%, -50%);
 }
