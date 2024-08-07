@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import quizData from './quizData';
-import './Quiz.css'; // Import the CSS file for styling
+import Confetti from 'react-confetti';
+import './Quiz.css';
 
 function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -8,6 +9,7 @@ function Quiz() {
   const [showScore, setShowScore] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const handleAnswerOptionClick = (option) => {
     const correctAnswer = quizData[currentQuestion].answer;
@@ -15,12 +17,14 @@ function Quiz() {
     if (option === correctAnswer) {
       setScore(score + 1);
       setIsCorrect(true);
+      setShowConfetti(true); // Show confetti for correct answer
     } else {
       setIsCorrect(false);
     }
 
     // Delay moving to the next question to allow the user to see feedback
     setTimeout(() => {
+      setShowConfetti(false); // Hide confetti after delay
       const nextQuestion = currentQuestion + 1;
       if (nextQuestion < quizData.length) {
         setCurrentQuestion(nextQuestion);
@@ -29,14 +33,25 @@ function Quiz() {
       } else {
         setShowScore(true);
       }
-    }, 1000); // Adjust time as needed
+    }, 2000); // Adjust time as needed
   };
+
+  useEffect(() => {
+    if (isCorrect !== null) {
+      setShowConfetti(isCorrect);
+    }
+  }, [isCorrect]);
 
   return (
     <div className='quiz-container'>
+      {showConfetti && <Confetti />}
       {showScore ? (
         <div className='score-section'>
-          You scored {score} out of {quizData.length}
+          <h1>Congratulations!</h1>
+          <p>You scored {score} out of {quizData.length}</p>
+          <button onClick={() => window.location.reload()} className='restart-button'>
+            Restart Quiz
+          </button>
         </div>
       ) : (
         <>
