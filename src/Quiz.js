@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import quizData from './quizData';
-import Confetti from 'react-confetti';
 import './Quiz.css';
 
 function Quiz() {
@@ -9,7 +8,7 @@ function Quiz() {
   const [showScore, setShowScore] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   const handleAnswerOptionClick = (option) => {
     const correctAnswer = quizData[currentQuestion].answer;
@@ -17,14 +16,14 @@ function Quiz() {
     if (option === correctAnswer) {
       setScore(score + 1);
       setIsCorrect(true);
-      setShowConfetti(true); // Show confetti for correct answer
+      setShowAnimation(true);
     } else {
       setIsCorrect(false);
     }
 
     // Delay moving to the next question to allow the user to see feedback
     setTimeout(() => {
-      setShowConfetti(false); // Hide confetti after delay
+      setShowAnimation(false);
       const nextQuestion = currentQuestion + 1;
       if (nextQuestion < quizData.length) {
         setCurrentQuestion(nextQuestion);
@@ -36,15 +35,9 @@ function Quiz() {
     }, 2000); // Adjust time as needed
   };
 
-  useEffect(() => {
-    if (isCorrect !== null) {
-      setShowConfetti(isCorrect);
-    }
-  }, [isCorrect]);
-
   return (
     <div className='quiz-container'>
-      {showConfetti && <Confetti />}
+      {showAnimation && <div className="fireworks-animation"></div>}
       {showScore ? (
         <div className='score-section'>
           <h1>Congratulations!</h1>
