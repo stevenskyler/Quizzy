@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import quizData from './quizData';
+import './Quiz.css'; // Import the CSS file for styling
 
 function Quiz() {
-  console.log(quizData); // Check if quizData is being imported correctly
-
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(""); 
+  const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
 
   const handleAnswerOptionClick = (option) => {
@@ -34,40 +33,34 @@ function Quiz() {
   };
 
   return (
-    <div className='quiz'>
+    <div className='quiz-container'>
       {showScore ? (
         <div className='score-section'>
           You scored {score} out of {quizData.length}
         </div>
       ) : (
         <>
-          {quizData.length > 0 && currentQuestion < quizData.length ? (
-            <>
-              <div className='question-section'>
-                <div className='question-count'>
-                  <span>Question {currentQuestion + 1}</span>/{quizData.length}
-                </div>
-                <div className='question-text'>{quizData[currentQuestion].question}</div>
-              </div>
-              <div className='answer-section'>
-                {quizData[currentQuestion].options.map((option) => (
-                  <button 
-                    onClick={() => handleAnswerOptionClick(option)} 
-                    key={option}
-                    style={{ backgroundColor: selectedAnswer === option ? (isCorrect ? 'lightgreen' : 'pink') : '' }}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
-              {selectedAnswer && (
-                <div style={{ marginTop: '10px' }}>
-                  {isCorrect ? 'Correct! 🎉' : 'Sorry, that’s not right. 😢'}
-                </div>
-              )}
-            </>
-          ) : (
-            <div>Loading...</div>
+          <div className='question-section'>
+            <div className='question-count'>
+              <span>Question {currentQuestion + 1}</span>/{quizData.length}
+            </div>
+            <div className='question-text'>{quizData[currentQuestion].question}</div>
+          </div>
+          <div className='answer-section'>
+            {quizData[currentQuestion].options.map((option) => (
+              <button 
+                onClick={() => handleAnswerOptionClick(option)} 
+                key={option}
+                className={`answer-button ${selectedAnswer === option ? (isCorrect ? 'correct' : 'incorrect') : ''}`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          {selectedAnswer && (
+            <div className={`feedback ${isCorrect ? 'correct' : 'incorrect'}`}>
+              {isCorrect ? 'Correct! 🎉' : 'Sorry, that’s not right. 😢'}
+            </div>
           )}
         </>
       )}
